@@ -4,7 +4,9 @@ from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 import os
 from io import BytesIO
-
+from streamlit_js_eval import streamlit_js_eval
+from geopy.geocoders import Nominatim
+s
 # 📂 Path where static data is stored
 data_dir = "data"
 
@@ -59,12 +61,47 @@ selected_file = datasets[selected_label]
 # Create some space between widgets
 st.write("___")
 
-# Step 2: Enter preferred location
-st.subheader("Step 2: Enter Preferred Location")
+# Step 2: Choose how to enter location
+st.subheader("Step 2: Choose Location Method")
 
-user_location = st.text_input("Enter your preferred location (e.g., Bapatla, Andhra Pradesh):")
-latitude_input = st.number_input("OR Enter Latitude: (e.g., 15.902)", format="%.6f", step=15.91)
-longitude_input = st.number_input("OR Enter Longitude:(e.g., 18.467)", format="%.6f", step=18.402)
+location_method = st.radio("How would you like to provide your location?",
+                           options=["Enter manually", "Use current location"])
+
+user_coords = None
+
+if location_method == "Enter manually":
+    user_location = st.text_input("Enter your preferred location (e.g., Bapatla, Andhra Pradesh):")
+    latitude_input = st.number_input("OR Enter Latitude:", format="%.6f", step=0.0001)
+    longitude_input = st.number_input("OR Enter Longitude:", format="%.6f", step=0.0001)
+
+    if user_location:
+        try:
+            geolocator = Nominatim(user_agent="teacher-transfer")
+            location = geolocator.geocode(user_location)
+            if location:
+                user_coords = (location.latitude, location.longitude)
+                st.success(f"📍 Location found: {location.address}")
+                st.write(f"Latitude: {location.latitude}, Longitude: {location.longitude}")
+            else:
+                st.warning("⚠️ Could not find the entered location.")
+        except Exception as e:
+            st.error(f"Error finding location: {e}")
+    elif latitude_input and longitude_input:
+        user_coords = (latitude_input, longitude_input)
+
+else:
+    loc_data = streamlit_js_eval(
+        js_expressions="navigator.geolocation.getCurrentPosition((pos) => pos.coords)",
+        key="get_user_location"
+    )
+
+    if loc_data and all(k in loc_data for k in ["latitude", "longitude"]):
+        latitude_input = loc_data["latitude"]
+        longitude_input = loc_data["longitude"]
+        st.success(f"📍 Your current location: {latitude_input:.6f}, {longitude_input:.6f}")
+        user_coords = (latitude_input, longitude_input)
+    else:
+        st.warning("⚠️ Could not fetch your location. Try allowing browser permission or enter manually.")
 
 # Space for better UX
 st.write("___")
