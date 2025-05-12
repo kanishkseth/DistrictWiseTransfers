@@ -11,6 +11,12 @@ import pydeck as pdk
 
 # 📂 Path where static data is stored
 data_dir = "data"
+
+# 🗺️ Add Andhra Pradesh Map
+st.sidebar.markdown("### Andhra Pradesh Map")
+
+st.sidebar.image("https://contestchacha.com/wp-content/uploads/2022/06/districts-in-Andhra-Pradesh.jpg", use_column_width=True)
+  # Display the map in the sidebar
 # 👁️ Track total views
 def update_view_count():
     count_file = "views.txt"
@@ -25,39 +31,10 @@ def update_view_count():
         f.write(str(count))
     return count
 
-# 🟢 Update and display the view count
-view_count = update_view_count()
-st.sidebar.markdown(f"👁️ **Total Views:** `{view_count}`")
 
 # 🟢 Update and display the view count
 view_count = update_view_count()
 st.sidebar.markdown(f"👁️ **Total Views:** `{view_count}`")
-
-# 🗺️ Add Andhra Pradesh Map
-st.sidebar.markdown("### Andhra Pradesh Map")
-# Set the coordinates of Andhra Pradesh
-ap_coords = [16.5062, 80.6495]  # Approximate center of Andhra Pradesh
-
-# Create a Pydeck map
-deck = pdk.Deck(
-    initial_view_state=pdk.ViewState(
-        latitude=ap_coords[0],
-        longitude=ap_coords[1],
-        zoom=7,  # Zoom level (adjust as needed)
-        pitch=0
-    ),
-    layers=[
-        pdk.Layer(
-            'ScatterplotLayer',
-            data=[{'lat': ap_coords[0], 'lon': ap_coords[1]}],
-            get_position='[lon, lat]',
-            get_color='[255, 0, 0]',
-            get_radius=50000,  # Adjust radius size
-        ),
-    ],
-)
-
-st.sidebar.pydeck_chart(deck)  # Display the map in the sidebar
 
 # ⚖️ All available datasets (assuming naming convention like guntur_sgt.xlsx, guntur_sa.xlsx)
 def get_available_datasets():
