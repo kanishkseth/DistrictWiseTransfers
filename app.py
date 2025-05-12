@@ -180,7 +180,7 @@ else:
         else:
             st.warning("⚠️ Could not retrieve coordinates.")
     else:
-    st.info("Click the button above and allow location access to proceed.")
+        st.info("Click the button above and allow location access to proceed.")
 
 
 st.write("___")
