@@ -6,7 +6,6 @@ import os
 from io import BytesIO
 from streamlit_js_eval import streamlit_js_eval
 from geopy.geocoders import Nominatim
-s
 # 📂 Path where static data is stored
 data_dir = "data"
 
