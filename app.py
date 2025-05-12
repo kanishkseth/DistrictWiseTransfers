@@ -28,7 +28,7 @@ def get_user_coords(location_str):
 # 📆 Load school data for a district
 @st.cache_data
 def load_school_data(filename):
-    df = pd.read_excel(os.path.join(data_dir, filename))
+    df = pd.read_excel(os.path.join(data_dir, filename), engine="openpyxl")
     return df
 
 # 🚀 Compute distances and return sorted schools
@@ -40,8 +40,8 @@ def compute_sorted_schools(df, user_coords, priority_order):
     df_sorted = df.sort_values(by=["PriorityIndex", "Distance_km"])
     return df_sorted[['School', 'Mandal', 'Category', 'Distance_km']]
 
-# 🚨 Streamlit UI
-st.title(":school: Teacher Transfer Helper Tool")
+# 🚤 Streamlit UI
+st.title("📚 Teacher Transfer Helper Tool")
 
 # Step 1: Select dataset
 datasets = get_available_datasets()
