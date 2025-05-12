@@ -94,3 +94,16 @@ if st.button("Find Nearby Schools"):
                     )
                 except Exception as e:
                     st.error(f"Error processing file: {e}")
+# Add "Help the Creator" section in the footer
+st.markdown("""
+    <hr>
+    <footer style="text-align:center; padding: 20px; background-color:#f4f4f4;">
+        <p>Developed by Neha</p>
+        <p>For further data analytics or inquiries, feel free to reach out: <a href="mailto:nehajanaki7788@gmail.com">nehajanaki7788@gmail.com</a></p>
+        <p>Thank you for using the Teacher Transfer Helper Tool!</p>
+    </footer>
+    <hr>
+    <footer style="text-align:center; padding: 20px; background-color:#f9f9f9;">
+        <p><strong>Support Me:</strong> I'm an aspiring tech enthusiast! If you find this tool useful and want to support my journey, feel free to reach out or contribute.</p>
+    </footer>
+    """, unsafe_allow_html=True)
