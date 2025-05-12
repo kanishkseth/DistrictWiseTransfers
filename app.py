@@ -5,6 +5,7 @@ from geopy.distance import geodesic
 import os
 from io import BytesIO
 from streamlit_js_eval import streamlit_js_eval
+from streamlit_js_eval import get_geolocation
 
 # ---------- Theme & Language Toggle ----------
 st.set_page_config(layout="wide")
@@ -170,12 +171,17 @@ if location_method == "Enter manually":
     elif latitude_input and longitude_input:
         user_coords = (latitude_input, longitude_input)
 else:
-    loc_data = streamlit_js_eval("navigator.geolocation.getCurrentPosition((pos) => pos.coords)", key="get_user_location")
-    if loc_data and all(k in loc_data for k in ["latitude", "longitude"]):
-        user_coords = (loc_data["latitude"], loc_data["longitude"])
-        st.success(f"📍 Current location: {user_coords[0]:.6f}, {user_coords[1]:.6f}")
+    loc_data = get_geolocation()
+    if loc_data and "coords" in loc_data:
+        coords = loc_data["coords"]
+        if "latitude" in coords and "longitude" in coords:
+            user_coords = (coords["latitude"], coords["longitude"])
+            st.success(f"📍 Current location: {user_coords[0]:.6f}, {user_coords[1]:.6f}")
+        else:
+            st.warning("⚠️ Could not retrieve coordinates.")
     else:
-        st.warning("⚠️ Could not fetch current location.")
+    st.info("Click the button above and allow location access to proceed.")
+
 
 st.write("___")
 st.subheader(T("priority_input"))
