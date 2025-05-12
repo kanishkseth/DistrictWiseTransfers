@@ -7,42 +7,36 @@ from io import BytesIO
 from streamlit_js_eval import streamlit_js_eval
 from streamlit_js_eval import get_geolocation
 
-# Set page layout
+# ---------- Theme & Language Toggle ----------
 st.set_page_config(layout="wide")
 
-# Detect browser theme on first load
 if "theme" not in st.session_state:
-    detected_theme = streamlit_js_eval(
-        js_expressions="window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'",
-        key="browser_theme_detect"
-    )
-    st.session_state.theme = detected_theme or "light"
-
-# Language session
+    st.session_state.theme = "light"
 if "lang" not in st.session_state:
     st.session_state.lang = "English"
 
-# ---------- Theme Toggle ----------
+# Top bar controls
 col1, col2 = st.columns([1, 1])
 with col1:
-    theme_choice = st.radio("🎨 Theme:", ["Light", "Dark"], horizontal=True,
-                            index=0 if st.session_state.theme == "light" else 1)
+    theme_choice = st.radio("🎨 Theme:", ["Light", "Dark"], horizontal=True)
     st.session_state.theme = theme_choice.lower()
 with col2:
     lang_choice = st.radio("🌐 Language:", ["English", "తెలుగు"], horizontal=True)
     st.session_state.lang = "English" if lang_choice == "English" else "Telugu"
 
-# ---------- Styling ----------
+# ---------- Dark Mode Styling ----------
 if st.session_state.theme == "dark":
     st.markdown("""
         <style>
-        body, .stApp, .sidebar .sidebar-content {
+        body, .stApp {
             background-color: #0e1117;
             color: white !important;
         }
+
         h1, h2, h3, h4, h5, h6, p, label, span, div {
             color: white !important;
         }
+
         .stTextInput > div > div > input,
         .stNumberInput input,
         .stSelectbox div[data-baseweb="select"],
@@ -51,24 +45,19 @@ if st.session_state.theme == "dark":
             background-color: #262730;
             color: white !important;
         }
-        .stButton > button, .stDownloadButton > button {
+
+        button[kind="primary"], .stButton > button {
             background-color: #1f77b4;
             color: white;
         }
-        .sidebar .sidebar-content {
-            background-color: #1a1d23;
+
+        .stDownloadButton > button {
+            background-color: #1f77b4;
+            color: white;
         }
-        footer, .footer-text {
+
+        footer {
             color: lightgreen !important;
-            background-color: transparent !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-else:
-    st.markdown("""
-        <style>
-        footer, .footer-text {
-            color: black !important;
             background-color: transparent !important;
         }
         </style>
@@ -102,7 +91,7 @@ T = lambda key: {
     },
 }[key][st.session_state.lang]
 
-# ---------- Sidebar ----------
+# ---------- Sidebar Map & Views ----------
 data_dir = "data"
 st.sidebar.markdown("### Andhra Pradesh Map")
 st.sidebar.image("https://contestchacha.com/wp-content/uploads/2022/06/districts-in-Andhra-Pradesh.jpg", use_container_width=True)
@@ -193,6 +182,7 @@ else:
     else:
         st.info("Click the button above and allow location access to proceed.")
 
+
 st.write("___")
 st.subheader(T("priority_input"))
 priority_input = st.text_input("", value="4 3 2 1")
@@ -221,15 +211,14 @@ if st.button(T("process_button")):
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# ---------- Footer ----------
-st.markdown(f"""
+st.markdown("""
 <hr>
-<footer class="footer-text" style="text-align:center; padding: 20px;">
+<footer style="text-align:center; padding: 20px; background-color:#f4f4f4;">
     <p>Developed by Neha</p>
     <p>Contact: <a href="mailto:nehajanaki7788@gmail.com">nehajanaki7788@gmail.com</a></p>
     <p>🙏 Thank you for using the Teacher Transfer Helper Tool!</p>
 </footer>
-<footer class="footer-text" style="text-align:center; padding: 20px;">
+<footer style="text-align:center; padding: 20px; background-color:#f9f9f9;">
     <p><strong>Support Me:</strong> I'm an aspiring tech enthusiast! If you find this tool useful and want to support my journey, feel free to reach out or contribute.</p>
 </footer>
 """, unsafe_allow_html=True)
