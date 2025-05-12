@@ -3,3 +3,4 @@ pandas
 geopy
 openpyxl
 tqdm
+streamlit-js-eval
