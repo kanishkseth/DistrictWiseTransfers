@@ -8,6 +8,23 @@ from streamlit_js_eval import streamlit_js_eval
 from geopy.geocoders import Nominatim
 # 📂 Path where static data is stored
 data_dir = "data"
+# 👁️ Track total views
+def update_view_count():
+    count_file = "views.txt"
+    try:
+        with open(count_file, "r") as f:
+            count = int(f.read())
+    except FileNotFoundError:
+        count = 0
+
+    count += 1
+    with open(count_file, "w") as f:
+        f.write(str(count))
+    return count
+
+# 🟢 Update and display the view count
+view_count = update_view_count()
+st.sidebar.markdown(f"👁️ **Total Views:** `{view_count}`")
 
 # ⚖️ All available datasets (assuming naming convention like guntur_sgt.xlsx, guntur_sa.xlsx)
 def get_available_datasets():
