@@ -43,6 +43,9 @@ def compute_sorted_schools(df, user_coords, priority_order):
 # 🚤 Streamlit UI
 st.title("📚 Teacher Transfer Helper Tool")
 
+# Space for UI enhancements
+st.write("___")
+
 # Step 1: Select dataset
 datasets = get_available_datasets()
 if not datasets:
@@ -52,20 +55,40 @@ if not datasets:
 selected_label = st.selectbox("Select your district and transfer type:", list(datasets.keys()))
 selected_file = datasets[selected_label]
 
+# Create some space between widgets
+st.write("___")
+
 # Step 2: Enter preferred location
+st.subheader("Step 2: Enter Preferred Location")
+
 user_location = st.text_input("Enter your preferred location (e.g., Bapatla, Andhra Pradesh):")
+latitude_input = st.number_input("OR Enter Latitude:", format="%.6f", step=0.0001)
+longitude_input = st.number_input("OR Enter Longitude:", format="%.6f", step=0.0001)
+
+# Space for better UX
+st.write("___")
 
 # Step 3: Enter category priority
+st.subheader("Step 3: Enter Category Priority")
+
 default_priority = "4 3 2 1"
 priority_input = st.text_input("Enter category priority (e.g., 4 3 2 1):", value=default_priority)
 
+# Space for better UX
+st.write("___")
+
 # Step 4: Process button
 if st.button("Find Nearby Schools"):
-    if not user_location:
-        st.error("Please enter your preferred location.")
+    if not user_location and (latitude_input == 0 or longitude_input == 0):
+        st.error("Please enter your preferred location or provide latitude and longitude.")
     else:
         with st.spinner("Processing..."):
-            user_coords = get_user_coords(user_location)
+            # Determine coordinates based on user input
+            if user_location:
+                user_coords = get_user_coords(user_location)
+            else:
+                user_coords = (latitude_input, longitude_input)
+
             if not user_coords:
                 st.error("Could not find coordinates for the location. Try a more specific name.")
             else:
@@ -94,7 +117,9 @@ if st.button("Find Nearby Schools"):
                     )
                 except Exception as e:
                     st.error(f"Error processing file: {e}")
+
 # Add "Help the Creator" section in the footer
+
 st.markdown("""
     <hr>
     <footer style="text-align:center; padding: 20px; background-color:#f4f4f4;">
