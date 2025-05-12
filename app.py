@@ -26,15 +26,40 @@ with col2:
 if st.session_state.theme == "dark":
     st.markdown("""
         <style>
-        body {
+        body, .stApp {
             background-color: #0e1117;
+            color: white !important;
+        }
+
+        /* Headings and text */
+        h1, h2, h3, h4, h5, h6, p, label, span, div {
+            color: white !important;
+        }
+
+        /* Input boxes, select, and text area */
+        .stTextInput > div > div > input,
+        .stNumberInput input,
+        .stSelectbox div[data-baseweb="select"],
+        .stRadio > div,
+        textarea {
+            background-color: #262730;
+            color: white !important;
+        }
+
+        /* Buttons */
+        button[kind="primary"] {
+            background-color: #1f77b4;
             color: white;
         }
-        .stApp {
-            background-color: #0e1117;
+
+        /* Download button */
+        .stDownloadButton > button {
+            background-color: #1f77b4;
+            color: white;
         }
         </style>
     """, unsafe_allow_html=True)
+
 
 # ---------- Translations ----------
 T = lambda key: {
