@@ -48,7 +48,7 @@ st.title("📚 Teacher Transfer Helper Tool")
 st.write("___")
 
 # Step 1: Select dataset
-st.subheader("Step 1: Select the District & Role")
+st.subheader("Select the District & Role")
 datasets = get_available_datasets()
 if not datasets:
     st.error(f"No Excel files found in the '{data_dir}' folder.")
@@ -61,9 +61,9 @@ selected_file = datasets[selected_label]
 st.write("___")
 
 # Step 2: Choose how to enter location
-st.subheader("Step 2: Choose Location Method")
+st.subheader("Choose Preferred Location Method")
 
-location_method = st.radio("How would you like to provide your location?",
+location_method = st.radio("How would you like to provide location Priority?",
                            options=["Enter manually", "Use current location"])
 
 user_coords = None
@@ -106,7 +106,7 @@ else:
 st.write("___")
 
 # Step 3: Enter category priority
-st.subheader("Step 3: Enter Category Priority")
+st.subheader("Enter Category Priority")
 
 default_priority = "4 3 2 1"
 priority_input = st.text_input("Enter category priority (e.g., 4 3 2 1):", value=default_priority)
