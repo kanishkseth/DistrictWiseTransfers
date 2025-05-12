@@ -47,6 +47,7 @@ st.title("📚 Teacher Transfer Helper Tool")
 st.write("___")
 
 # Step 1: Select dataset
+st.subheader("Step 1: Select the District & Role")
 datasets = get_available_datasets()
 if not datasets:
     st.error(f"No Excel files found in the '{data_dir}' folder.")
