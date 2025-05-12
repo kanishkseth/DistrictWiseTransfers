@@ -63,8 +63,8 @@ st.write("___")
 st.subheader("Step 2: Enter Preferred Location")
 
 user_location = st.text_input("Enter your preferred location (e.g., Bapatla, Andhra Pradesh):")
-latitude_input = st.number_input("OR Enter Latitude: (e.g., 15.91)", format="%.6f", step=15.91)
-longitude_input = st.number_input("OR Enter Longitude:(e.g., 18.402)", format="%.6f", step=18.402)
+latitude_input = st.number_input("OR Enter Latitude: (e.g., 15.902)", format="%.6f", step=15.91)
+longitude_input = st.number_input("OR Enter Longitude:(e.g., 18.467)", format="%.6f", step=18.402)
 
 # Space for better UX
 st.write("___")
