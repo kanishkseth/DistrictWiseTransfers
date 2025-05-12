@@ -13,9 +13,13 @@ import pydeck as pdk
 data_dir = "data"
 
 # 🗺️ Add Andhra Pradesh Map
+# ✅ Display Andhra Pradesh static image in the sidebar
 st.sidebar.markdown("### Andhra Pradesh Map")
+st.sidebar.image(
+    "https://contestchacha.com/wp-content/uploads/2022/06/districts-in-Andhra-Pradesh.jpg",
+    use_container_width=True
+)
 
-st.sidebar.image("https://contestchacha.com/wp-content/uploads/2022/06/districts-in-Andhra-Pradesh.jpg", use_column_width=True)
   # Display the map in the sidebar
 # 👁️ Track total views
 def update_view_count():
